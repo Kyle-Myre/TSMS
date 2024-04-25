@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AllocationResource\Pages;
 use App\Filament\Resources\AllocationResource\RelationManagers;
 use App\Models\Allocation;
+use App\Models\Chip;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
@@ -14,6 +16,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
 
 
 class AllocationResource extends Resource
@@ -26,12 +29,14 @@ class AllocationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('chip_id')
+                Forms\Components\Select::make('chip_id')
                     ->required()
-                    ->numeric(),
+                    ->options(Chip::all()->pluck('telephone')),
+
                 Forms\Components\TextInput::make('type')
                     ->required()
                     ->maxLength(255),
+                    
                 Forms\Components\Toggle::make('is_active')
                     ->required(),
             ]);

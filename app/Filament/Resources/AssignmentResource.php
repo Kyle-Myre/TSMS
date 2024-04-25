@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AssignmentResource\Pages;
 use App\Filament\Resources\AssignmentResource\RelationManagers;
 use App\Models\Assignment;
+use App\Models\Chip;
+use App\Models\Staff;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -24,12 +26,16 @@ class AssignmentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('chip_id')
+                Forms\Components\Select::make('chip_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('staff_id')
+                    ->options(Chip::all()->pluck('telephone' , 'id')),
+
+                Forms\Components\Select::make('staff_id')
                     ->required()
-                    ->numeric(),
+                    ->options(
+                        Staff::all()->pluck('last_name' , 'id')
+                    ),
+
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->maxLength(255),

@@ -23,6 +23,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -35,6 +36,18 @@ class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
+    public const ROLE_USER     = 'USER';
+    public const ROLE_ADMIN    = 'ADMIN';
+    public const ROLE_PROVIDER = 'PROVIDER';
+    public const ROLE_DEFAULT  = 'USER';
+
+
+    public const ROLES = [
+        self::ROLE_USER,
+        self::ROLE_ADMIN,
+        self::ROLE_PROVIDER
+    ];
+
     /**
      * The attributes that should be cast.
      *
@@ -45,6 +58,15 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     public function canAccessPanel(Panel $panel): bool {
-        return true;
+        return $this->isAdmin() || $this->isProvider() || $this->isUser();
+    }
+    public function isAdmin() : bool {
+        return $this->role === self::ROLE_ADMIN;
+    }
+    public function isProvider () : bool {
+        return $this->role === self::ROLE_PROVIDER;
+    }
+    public function isUser () : bool {
+        return $this->role === self::ROLE_USER;
     }
 }
