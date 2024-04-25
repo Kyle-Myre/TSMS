@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+
 
 class UserResource extends Resource
 {
@@ -35,6 +37,8 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
+            ])->bulkActions([
+                ExportBulkAction::make()
             ]);
     }
 

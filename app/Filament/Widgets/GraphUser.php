@@ -3,20 +3,21 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
-use App\Models\Staff as StaffEntity;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 
-class Staff extends ChartWidget
+use App\Models\User as UserEntity;
+
+class GraphUser extends ChartWidget
 {
-    protected static ?string $heading = 'Staff';
+    protected static ?string $heading = 'Users';
 
     protected function getData(): array
     {
-        $data = Trend::model(StaffEntity::class)
+        $data = Trend::model(UserEntity::class)
         ->between(
-            start: now()->startOfYear(),
-            end: now()->endOfYear(),
+            start: now()->subMonths(),
+            end: now(),
         )
         ->perMonth()
         ->count();
@@ -26,7 +27,7 @@ class Staff extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Staff',
+                    'label' => 'Users',
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
@@ -36,6 +37,6 @@ class Staff extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'line';
     }
 }
