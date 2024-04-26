@@ -10,6 +10,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 
+use Webbingbrasil\FilamentAdvancedFilter\Filters\BooleanFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\NumberFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -52,7 +57,10 @@ class EntityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TextFilter::make('name'),
+                TextFilter::make('description'),
+                DateFilter::make('create_at'),
+                DateFilter::make('updated_at')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

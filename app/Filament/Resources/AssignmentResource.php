@@ -27,10 +27,12 @@ class AssignmentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('chip_id')
+                    ->label('Chip')
                     ->required()
                     ->options(Chip::all()->pluck('telephone' , 'id')),
 
                 Forms\Components\Select::make('staff_id')
+                    ->label('Staff')
                     ->required()
                     ->options(
                         Staff::all()->pluck('last_name' , 'id')

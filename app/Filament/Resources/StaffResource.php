@@ -14,6 +14,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
+use Webbingbrasil\FilamentAdvancedFilter\Filters\BooleanFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\NumberFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+
+
 class StaffResource extends Resource
 {
     protected static ?string $model = Staff::class;
@@ -62,7 +68,12 @@ class StaffResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TextFilter::make('entity'),
+                TextFilter::make('first_name'),
+                TextFilter::make('last_name'),
+                NumberFilter::make('registration_number'),
+                DateFilter::make('create_at'),
+                DateFilter::make('updated_at')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

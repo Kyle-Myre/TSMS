@@ -16,7 +16,8 @@
         "laravel/tinker": "^2.8",
         "leandrocfe/filament-apex-charts": "3.1",
         "pxlrbt/filament-excel": "^2.3",
-        "shanerbaner82/panel-roles": "^0.0.3"
+        "shanerbaner82/panel-roles": "^0.0.3",
+        "webbingbrasil/filament-advancedfilter": "^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
