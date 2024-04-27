@@ -2,22 +2,27 @@
 
 namespace App\Filament\Resources;
 
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\ChipResource\Pages;
 use App\Filament\Resources\ChipResource\RelationManagers;
 use App\Models\Chip;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Resources\Form;
 use Filament\Resources\Resource;
+use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
+use Webbingbrasil\FilamentAdvancedFilter\Filters\BooleanFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\NumberFilter;
 
 class ChipResource extends Resource
 {
     protected static ?string $model = Chip::class;
+
 
     protected static ?string $navigationIcon = 'heroicon-o-phone';
 
@@ -62,18 +67,20 @@ class ChipResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TextFilter::make('type'),
+                TextFilter::make('provider'),
+                TextFilter::make('telephone'),
+                BooleanFilter::make('is_active'),
+                DateFilter::make('created_at'),
+                DateFilter::make('updated_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])->bulkActions([
-                ExportBulkAction::make()
-            ]);;
+                Tables\Actions\DeleteBulkAction::make(),
+                FilamentExportBulkAction::make('export')
+            ]);
     }
 
     public static function getRelations(): array

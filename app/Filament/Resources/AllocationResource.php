@@ -2,21 +2,23 @@
 
 namespace App\Filament\Resources;
 
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\AllocationResource\Pages;
 use App\Filament\Resources\AllocationResource\RelationManagers;
 use App\Models\Allocation;
-use App\Models\Chip;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
+use Filament\Resources\Form;
 use Filament\Resources\Resource;
+use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Actions\ExportBulkAction;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Collection;
+
+use Webbingbrasil\FilamentAdvancedFilter\Filters\BooleanFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\NumberFilter;
+use App\Models\Chip;
 
 
 class AllocationResource extends Resource
@@ -25,11 +27,13 @@ class AllocationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('chip_id')
+                    ->label('Chip')
                     ->required()
                     ->options(Chip::all()->pluck('telephone')),
 
@@ -47,7 +51,6 @@ class AllocationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('chip_id')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -61,19 +64,20 @@ class AllocationResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
-            ])->bulkActions([
-                    ExportBulkAction::make()
-                ])
+            ])
             ->filters([
-                
+                TextFilter::make('type'),
+                BooleanFilter::make('is_active'),
+                DateFilter::make('created_at'),
+                DateFilter::make('updated_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
+                FilamentExportBulkAction::make('export')
             ]);
     }
 

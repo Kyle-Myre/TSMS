@@ -2,24 +2,28 @@
 
 namespace App\Filament\Resources;
 
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\StaffResource\Pages;
 use App\Filament\Resources\StaffResource\RelationManagers;
 use App\Models\Staff;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Resources\Form;
 use Filament\Resources\Resource;
+use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+
+use Webbingbrasil\FilamentAdvancedFilter\Filters\BooleanFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\NumberFilter;
 
 class StaffResource extends Resource
 {
     protected static ?string $model = Staff::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-identification';
-
     public static function form(Form $form): Form
     {
         return $form
@@ -44,7 +48,6 @@ class StaffResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('entity.name')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('registration_number')
                     ->searchable(),
@@ -62,17 +65,19 @@ class StaffResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TextFilter::make('entity')->relationship('entity', 'name')->default(TextFilter::CLAUSE_CONTAIN),
+                NumberFilter::make('registration_number'),
+                TextFilter::make('first_name'),
+                TextFilter::make('last_name'),
+                DateFilter::make('created_at'),
+                DateFilter::make('updated_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])->bulkActions([
-                ExportBulkAction::make()
+                Tables\Actions\DeleteBulkAction::make(),
+                FilamentExportBulkAction::make('export')
             ]);
     }
 

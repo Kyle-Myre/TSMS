@@ -2,57 +2,102 @@
 
 namespace App\Filament\Widgets;
 
+use Filament\Widgets\BarChartWidget;
+use App\Models\User;
+use App\Models\Chip;
+use App\Models\Staff;
 use App\Models\Allocation;
 use App\Models\Assignment;
-use App\Models\Chip;
 use App\Models\Entity;
-use App\Models\Staff;
-use App\Models\User;
-use Filament\Support\Enums\IconPosition;
-use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Filament\Widgets\StatsOverviewWidget\Stat;
-use Filament\Widgets\StatsOverviewWidget\Card;
 
-class Overview extends BaseWidget
+use Flowframe\Trend\Trend;
+use Flowframe\Trend\TrendValue;
+
+class Overview extends BarChartWidget
 {
-    protected function getStats(): array
+    protected static ?string $heading = 'Overview';
+
+    protected function getData(): array
     {
+        $staff = Trend::model(Staff::class)
+            ->between(
+                start: now()->subMonths(),
+                end: now(),
+            )
+            ->perMonth()
+            ->count();
+
+        $entity = Trend::model(Entity::class)
+            ->between(
+                start: now()->subMonths(),
+                end: now(),
+            )
+            ->perMonth()
+            ->count();
+
+        $allocation = Trend::model(Allocation::class)
+            ->between(
+                start: now()->subMonths(),
+                end: now(),
+            )
+            ->perMonth()
+            ->count();
+
+        $chip = Trend::model(Chip::class)
+            ->between(
+                start: now()->subMonths(),
+                end: now(),
+            )
+            ->perMonth()
+            ->count();
+
+        $assignment = Trend::model(Assignment::class)
+            ->between(
+                start: now()->subMonths(),
+                end: now(),
+            )
+            ->perMonth()
+            ->count();
+
+
+        // dd($data);
+
+        $Color = "rgba(34, 197, 94 , 0.62)";
+
         return [
-            Card::make('Staff', Staff::count())
-                ->description("Current registered staff Members")
-                ->descriptionIcon("heroicon-o-identification", IconPosition::Before)
-                ->chart([Staff::min('id'), Staff::min('id')])
-                ->color('success'),
-
-            Card::make('Entity', Entity::count())
-                ->description("Current registered entities")
-                ->descriptionIcon("heroicon-o-user-group", IconPosition::Before)
-                ->chart([Entity::min('id'), Entity::max('id')])
-                ->color('success'),
-
-            Card::make('Allocation', Allocation::count())
-                ->description("Current registered allocations")
-                ->descriptionIcon("heroicon-o-credit-card", IconPosition::Before)
-                ->chart([Allocation::min('id'), Allocation::max('id')])
-                ->color('success'),
-
-            Card::make('Assignment', Assignment::count())
-                ->description("Current registered assignments")
-                ->descriptionIcon("heroicon-o-clipboard-document-check", IconPosition::Before)
-                ->chart([Assignment::min("id"), Assignment::max("id")])
-                ->color('success'),
-
-            Card::make('Chip', Chip::count())
-                ->description("Current registered chips")
-                ->descriptionIcon("heroicon-o-phone", IconPosition::Before)
-                ->chart([Chip::min("id"), Chip::max("id")])
-                ->color('success'),
-
-            Card::make('User', User::count())
-                ->description("Current user assignments")
-                ->descriptionIcon("heroicon-o-user", IconPosition::Before)
-                ->chart([User::min("id"), User::max("id")])
-                ->color('success'),
+            'datasets' => [
+                [
+                    'label' => 'Staff',
+                    'data' => $staff->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => $Color, 
+                    'borderColor' => $Color
+                ],
+                [
+                    'label' => 'Entity',
+                    'data' => $entity->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => $Color, 
+                    'borderColor' => $Color
+                ],
+                [
+                    'label' => 'Allocation',
+                    'data' => $allocation->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => $Color, 
+                    'borderColor' => $Color
+                ],
+                [
+                    'label' => 'Chip',
+                    'data' => $chip->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => $Color, 
+                    'borderColor' => $Color
+                ],
+                [
+                    'label' => 'Assignment',
+                    'data' => $assignment->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => $Color, 
+                    'borderColor' => $Color 
+                ],
+            ],
+            'labels' => $staff->map(fn(TrendValue $value) => $value->date),
         ];
     }
 }

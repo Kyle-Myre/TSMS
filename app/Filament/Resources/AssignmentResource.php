@@ -2,38 +2,45 @@
 
 namespace App\Filament\Resources;
 
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\AssignmentResource\Pages;
 use App\Filament\Resources\AssignmentResource\RelationManagers;
 use App\Models\Assignment;
-use App\Models\Chip;
-use App\Models\Staff;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Resources\Form;
 use Filament\Resources\Resource;
+use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+
+use Webbingbrasil\FilamentAdvancedFilter\Filters\BooleanFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\NumberFilter;
+use App\Models\Chip;
+use App\Models\Staff;
 
 class AssignmentResource extends Resource
 {
     protected static ?string $model = Assignment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static ?string $navigationIcon = 'heroicon-o-inbox';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('chip_id')
+                    ->label('Chip')
                     ->required()
-                    ->options(Chip::all()->pluck('telephone' , 'id')),
+                    ->options(Chip::all()->pluck('telephone', 'id')),
 
                 Forms\Components\Select::make('staff_id')
+                    ->label('Staff')
                     ->required()
                     ->options(
-                        Staff::all()->pluck('last_name' , 'id')
+                        Staff::all()->pluck('last_name', 'id')
                     ),
 
                 Forms\Components\TextInput::make('description')
@@ -48,11 +55,13 @@ class AssignmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('chip_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('chip.telephone')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('staff_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('staff.first_name')
+                    ->label('First Name')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('staff.last_name')
+                    ->label('Last Name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
@@ -69,17 +78,21 @@ class AssignmentResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TextFilter::make('chip')->relationship('chip', 'telephone')->default(TextFilter::CLAUSE_CONTAIN),
+                TextFilter::make('First Name')->relationship('staff', 'first_name')->default(TextFilter::CLAUSE_CONTAIN),
+                TextFilter::make('Last Name')->relationship('staff', 'last_name')->default(TextFilter::CLAUSE_CONTAIN),
+
+                TextFilter::make('description'),
+                DateFilter::make('date'),
+                DateFilter::make('created_at'),
+                DateFilter::make('updated_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])->bulkActions([
-                ExportBulkAction::make()
+                Tables\Actions\DeleteBulkAction::make(),
+                FilamentExportBulkAction::make('export')
             ]);
     }
 

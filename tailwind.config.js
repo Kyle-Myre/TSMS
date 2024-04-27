@@ -1,27 +1,26 @@
-/** @type {import('tailwindcss').Config} */
-
-import preset from "./vendor/filament/support/tailwind.config.preset";
-import colors from "tailwindcss/colors";
-
-module.exports = {
-    presets: [preset],
+import colors from 'tailwindcss/colors' 
+import forms from '@tailwindcss/forms'
+import typography from '@tailwindcss/typography' 
+ 
+export default {
     content: [
-        "./app/Filament/**/*.php",
-        "./resources/views/filament/**/*.blade.php",
-        "./vendor/filament/**/*.blade.php",
+        './resources/**/*.blade.php',
+        './vendor/filament/**/*.blade.php', 
+        'resources/css/filament.css',
     ],
+    darkMode: 'class',
     theme: {
         extend: {
-            extends: {
-                colors: {
-                    danger: colors.red,
-                    primary: colors.cyan,
-                    success: colors.green,
-                    info: colors.amber,
-                    warning: colors.yellow,
-                },
-            },
+            colors: { 
+                danger: colors.rose,
+                primary: colors.green,
+                success: colors.cyan,
+                warning: colors.orange,
+            }, 
         },
     },
-    plugins: [],
-};
+    plugins: [
+        forms, 
+        typography, 
+    ],
+}

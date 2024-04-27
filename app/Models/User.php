@@ -10,9 +10,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
+
+
 class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable , TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -57,7 +60,7 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
     ];
 
-    public function canAccessPanel(Panel $panel): bool {
+    public function canAccessFilament(): bool {
         return $this->isAdmin() || $this->isProvider() || $this->isUser();
     }
     public function isAdmin() : bool {
