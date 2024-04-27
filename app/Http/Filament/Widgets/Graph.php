@@ -82,7 +82,7 @@ class Graph extends ChartWidget
                 ],
                 [
                     'label' => 'Assignment',
-                    'data' => $chip->map(fn (TrendValue $value) => $value->aggregate),
+                    'data' => $assignment->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
             'labels' => $staff->map(fn (TrendValue $value) => $value->date),
