@@ -2,9 +2,9 @@
 
     <x-filament-breezy::sections.personal-info/>
 
-    <x-filament::hr />
+    {{-- <x-filament::hr /> --}}
 
-    <x-filament-breezy::sections.passwords/>
+    {{-- <x-filament-breezy::sections.passwords/> --}}
 
     @if(config('filament-breezy.enable_2fa'))
     <x-filament::hr />

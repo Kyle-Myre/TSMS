@@ -3,13 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Policies\HealthPolicy;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
 use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 
 
@@ -63,6 +63,9 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessFilament(): bool {
         return $this->isAdmin() || $this->isProvider() || $this->isUser();
     }
+
+    
+
     public function isAdmin() : bool {
         return $this->role === self::ROLE_ADMIN;
     }

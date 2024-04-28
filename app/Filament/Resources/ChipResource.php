@@ -26,6 +26,8 @@ class ChipResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-phone';
 
+    protected static ?string $activeNavigationIcon = "heroicon-s-phone";
+
     public static function form(Form $form): Form
     {
         return $form
@@ -78,7 +80,7 @@ class ChipResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
                 FilamentExportBulkAction::make('export')
             ]);
     }

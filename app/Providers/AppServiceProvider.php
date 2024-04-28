@@ -2,6 +2,17 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Auth;
+use Spatie\Health\Checks\Checks\CacheCheck;
+use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Spatie\Health\Checks\Checks\DatabaseSizeCheck;
+use Spatie\Health\Checks\Checks\DatabaseTableSizeCheck;
+use Spatie\Health\Checks\Checks\PingCheck;
+use Spatie\Health\Facades\Health;
+use Spatie\Health\Checks\Checks\OptimizedAppCheck;
+use Spatie\Health\Checks\Checks\DebugModeCheck;
+use Spatie\Health\Checks\Checks\EnvironmentCheck;
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Vite;
@@ -37,6 +48,17 @@ class AppServiceProvider extends ServiceProvider
                     ->numbers()->mixedCase()
                     ->uncompromised(3) ,
             ]
-    );
+        );
+
+        Health::checks([
+            OptimizedAppCheck::new(),
+            DebugModeCheck::new(),
+            EnvironmentCheck::new(),
+            DatabaseCheck::new(),
+            DatabaseSizeCheck::new(),
+            DatabaseTableSizeCheck::new(),
+            CacheCheck::new(),
+        ]);
+        
     }
 }

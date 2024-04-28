@@ -25,6 +25,7 @@ class EntityResource extends Resource
 
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $activeNavigationIcon = "heroicon-s-user-group";
 
     public static function form(Form $form): Form
     {
@@ -66,7 +67,7 @@ class EntityResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
                 FilamentExportBulkAction::make('export')
             ]);
     }

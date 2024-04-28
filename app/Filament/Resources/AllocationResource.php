@@ -27,6 +27,8 @@ class AllocationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
+    protected static ?string $activeNavigationIcon = "heroicon-s-credit-card";
+
 
     public static function form(Form $form): Form
     {
@@ -50,7 +52,7 @@ class AllocationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('chip_id')
+                Tables\Columns\TextColumn::make('chip.telephone')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -66,6 +68,7 @@ class AllocationResource extends Resource
                     ->boolean(),
             ])
             ->filters([
+                TextFilter::make('chip')->relationship('chip', 'telephone')->default(TextFilter::CLAUSE_CONTAIN),
                 TextFilter::make('type'),
                 BooleanFilter::make('is_active'),
                 DateFilter::make('created_at'),
@@ -76,7 +79,7 @@ class AllocationResource extends Resource
                 
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
                 FilamentExportBulkAction::make('export')
             ]);
     }

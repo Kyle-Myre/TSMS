@@ -24,6 +24,7 @@ class StaffResource extends Resource
     protected static ?string $model = Staff::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-identification';
+    protected static ?string $activeNavigationIcon = "heroicon-s-identification";
     public static function form(Form $form): Form
     {
         return $form
@@ -76,7 +77,7 @@ class StaffResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
                 FilamentExportBulkAction::make('export')
             ]);
     }

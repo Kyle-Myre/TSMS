@@ -16,6 +16,6 @@ class Allocation extends Model
      * An Allocation has one unique chip
      */
     public function chip() : HasOne  {
-        return $this->hasOne(Chip::class);
+        return $this->hasOne(Chip::class , "id" , "chip_id");
     }
 }
