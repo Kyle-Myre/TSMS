@@ -1,66 +1,160 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Telephone-Staffing-Management-System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-8.x-orange)
+![Vue.js](https://img.shields.io/badge/Vue.js-3.x-brightgreen)
+![SQLite](https://img.shields.io/badge/SQLite-3.x-blue)
 
-## About Laravel
+## Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The **Telephone Staffing Management System** is a comprehensive CRUD application designed to manage staff allocations and assignments for a telephone staffing system. Built with Laravel, this application offers an intuitive user interface powered by the Filament Admin Panel for efficient resource management. It handles the core functionalities related to managing entities, assignments, staff, users, chips, and more.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **CRUD Operations**: Full Create, Read, Update, and Delete functionality for managing staff, allocations, assignments, and users.
+- **Filament Admin Panel**: Utilizes Filament for an easy-to-use, visually appealing admin panel.
+- **Role-based Access**: Access control via policies and middleware to secure user data.
+- **Widgets & Resources**: Custom widgets and resources for easier data visualization and manipulation.
 
-## Learning Laravel
+## Project Structure
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The project follows the Laravel framework structure, with additional components for Filament integration and custom business logic.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```
+├───app
+│   ├───Console               # Artisan commands
+│   ├───Exceptions            # Exception handling
+│   ├───Filament              # Filament integration
+│   │   ├───Resources         # CRUD resources for each model
+│   │   │   ├───AllocationResource   
+│   │   │   │   └───Pages     # Filament pages for Allocation
+│   │   │   ├───AssignmentResource
+│   │   │   │   └───Pages     # Filament pages for Assignment
+│   │   │   ├───ChipResource
+│   │   │   │   └───Pages     # Filament pages for Chip
+│   │   │   ├───EntityResource
+│   │   │   │   └───Pages     # Filament pages for Entity
+│   │   │   ├───StaffResource
+│   │   │   │   └───Pages     # Filament pages for Staff
+│   │   │   └───UserResource
+│   │   │       └───Pages     # Filament pages for User
+│   │   └───Widgets           # Custom Filament widgets
+│   ├───Http
+│   │   ├───Controllers      # Controllers for routing logic
+│   │   ├───Filament
+│   │   │   ├───Resources     # Filament resource controllers
+│   │   │   └───Widgets       # Custom Filament widgets logic
+│   │   └───Middleware       # Middleware for access control
+│   ├───Models               # Eloquent models for database entities
+│   ├───Policies             # Access control policies for different resources
+│   └───Providers            # Service providers for app initialization
+├───bootstrap                # App bootstrap files
+│   └───cache                # Cache files
+├───config                   # Configuration files
+├───database
+│   ├───factories            # Model factories for testing
+│   ├───migrations           # Database migration files
+│   └───seeders              # Database seeders
+├───public                   # Public assets (CSS, JS, images)
+├───resources
+│   ├───css                  # CSS files for styling
+│   ├───js                   # JS files for interactivity
+│   └───views                # Blade views for frontend
+│       └───vendor
+│           ├───filament     # Filament view components
+│           └───filament-breezy # Breezy Filament components for user auth
+├───routes                   # Route definitions
+├───storage                  # Storage for uploaded files, cache, and logs
+│   ├───app
+│   │   └───public           # Public files storage
+│   ├───framework            # Framework-generated files
+│   │   ├───cache            # Cache data
+│   │   ├───sessions         # Session files
+│   │   ├───testing          # Testing files
+│   │   └───views            # View files
+│   └───logs                 # Application logs
+└───tests                    # Automated tests
+    ├───Feature              # Feature tests
+    └───Unit                 # Unit tests
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+To get started with the **Telephone Staffing Management System**, follow the steps below:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd TTelephone-Staffing-Management-System
+   ```
 
-### Premium Partners
+2. **Install dependencies**:
+   Run the following command to install the necessary dependencies via Composer and NPM:
+   ```bash
+   composer install
+   npm install
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+3. **Set up your environment file**:
+   Copy `.env.example` to `.env` and configure the necessary environment variables (e.g., database connection, app URL).
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Generate application key**:
+   ```bash
+   php artisan key:generate
+   ```
+
+5. **Run migrations**:
+   Run the following command to set up your database tables:
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Seed database (optional)**:
+   You can seed the database with sample data using:
+   ```bash
+   php artisan db:seed
+   ```
+
+7. **Start the server**:
+   You can now start the Laravel development server:
+   ```bash
+   php artisan serve
+   ```
+
+   Your app should now be running at `http://localhost:8000`.
+
+## Testing
+
+The application includes feature and unit tests for ensuring the functionality of the CRUD operations and system logic. You can run the tests with:
+
+```bash
+php artisan test
+```
+
+## Filament Admin Panel
+
+The system uses Filament for the admin panel. After logging in, users can manage staff, assignments, chips, and more through the intuitive UI. Filament resources handle CRUD operations for each model, making the management of the system easy.
+
+### Pages & Resources
+
+Each key entity in the system (e.g., **Staff**, **Assignments**, **Users**) has its own Filament resource with CRUD operations and corresponding pages for viewing and editing the records.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+We welcome contributions! To contribute to this project:
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository
+2. Create a new branch
+3. Make your changes
+4. Open a pull request with a description of your changes
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-source and available under the [MIT License](LICENSE).
+
+## Contact
+
+For any issues or inquiries, please contact the project maintainer at [your-email@example.com].
