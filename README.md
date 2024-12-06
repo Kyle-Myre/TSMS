@@ -1,4 +1,4 @@
-# Telephone-Staffing-Management-System
+# Telephone Staffing Management System
 
 ![Laravel](https://img.shields.io/badge/Laravel-8.x-orange)
 ![Vue.js](https://img.shields.io/badge/Vue.js-3.x-brightgreen)
