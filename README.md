@@ -154,7 +154,3 @@ We welcome contributions! To contribute to this project:
 ## License
 
 This project is open-source and available under the [MIT License](LICENSE).
-
-## Contact
-
-For any issues or inquiries, please contact the project maintainer at [your-email@example.com].
